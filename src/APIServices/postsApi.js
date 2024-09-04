@@ -7,7 +7,6 @@ export const createPostApi = async(postData) =>{
     return response.data;
 
 }
-
 export const fetchAllPosts = async()=>{
     const response = await axios.get(`${baseUrl}/posts`);
     return response.data;
