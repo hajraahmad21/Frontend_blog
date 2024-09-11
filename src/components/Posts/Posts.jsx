@@ -3,11 +3,14 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { MdClear } from "react-icons/md";
+import NoDataFound from "../Alert/NoDataFound";
 import { useState } from "react";
+import "./Post.css";
+import AlertMessage from "../Alert/AlertMessage";
 
 function Posts() {
-  const [page , setPage] = useState(1)
-  const { isError, error, data, isLoading, refetch } = useQuery({
+  const [page, setPage] = useState(1);
+  const { isError, error, data, isLoading, refetch , isSuccess } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchAllPosts,
   });
@@ -27,10 +30,21 @@ function Posts() {
       })
       .catch((err) => console.log(err));
   };
-
-
-  return (
-       <section className="overflow-hidden">
+  if(isError)
+  {
+    return <AlertMessage type={"error"} message={error.message} />
+  }
+  if(data?.posts?.length<=0)
+  {
+    return <NoDataFound text="No posts found"/>
+  }
+  if (isLoading)
+  { 
+    return <AlertMessage type={"loading"} message="Loading..." />
+  }
+  
+ return (
+    <section className="overflow-hidden">
       <div className="container px-4 mx-auto">
         <h1 className="text-4xl lg:text-6xl font-bold font-heading mb-6 mt-16">
           Blog
@@ -92,7 +106,10 @@ function Posts() {
                     <div className="absolute bottom-0 right-0 z-10"></div>
                     <img
                       className="absolute inset-0 w-full h-full object-cover rounded-2xl"
-                      src={post?.image?.path}
+                      src={
+                        post?.image?.path ||
+                        "https://cdn.pixabay.com/photo/2024/07/11/14/32/orange-8888447_1280.png"
+                      }
                       alt={"post"}
                     />
                   </div>
