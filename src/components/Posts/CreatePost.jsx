@@ -1,11 +1,13 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createPostApi } from "../../APIServices/postsApi";
+import { FaTimesCircle } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query";
 import ReactQuill from "react-quill";
 import "quill/dist/quill.snow.css";
 import "./style.scss";
 import { useState } from "react";
+import AlertMessage from "../Alert/AlertMessage";
 
 // Register custom fonts and sizes
 import { Quill } from "react-quill";
@@ -32,12 +34,17 @@ Size.whitelist = [
 Quill.register(Size, true);
 
 function CreatePost() {
+  const [description, setDescription] = useState("");
+  const [imageError, setImageError] = useState("");
+  const [imagePreview , setImagePreview] = useState(null);
   const postMutation = useMutation({
     mutationKey: ["createPost"],
     mutationFn: (postData) => {
+      console.log({postData},"kk");
       return createPostApi(postData);
     },
   });
+
 
   const formik = useFormik({
     initialValues: {
@@ -47,13 +54,16 @@ function CreatePost() {
       description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      postMutation.mutate(values);
+      console.log(values, "values" ,values.description , values.image );
+      const formData = new FormData();
+      formData.append("description", values.description);
+      formData.append("image", values.image);
+      console.log({formData},"form");
+      postMutation.mutate(formData);
       resetForm();
     },
   });
 
-  const [description, setDescription] = useState("");
 
   const toolBarOptions = [
     [{ font: Font.whitelist }], // Custom fonts
@@ -85,6 +95,24 @@ function CreatePost() {
     "align",
   ];
 
+
+  const handleFileChange = (event) => {
+   const file = event.target.files[0];
+   if(file.size>1048576)
+   {
+     setImageError("File size should be less than 1 MB");
+     return;
+   }
+   formik.setFieldValue("image", file);
+   setImagePreview(URL.createObjectURL(file));
+ 
+  }
+
+  const removeImage = ()=>{
+    formik.setFieldValue("image", null);
+    setImagePreview(null);
+  }
+
   const modules = { toolbar: toolBarOptions };
   const isLoading = postMutation.isPending;
   //isErr
@@ -93,7 +121,6 @@ function CreatePost() {
   const isSuccess = postMutation.isSuccess;
   //Error
   const errorMsg = postMutation?.error?.response?.data?.message;
-
   return (
     <div className="flex items-center justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 m-4">
@@ -103,14 +130,13 @@ function CreatePost() {
         {/* show alert */}
 
         {isLoading && (
-          // <AlertMessage type="loading" message="Loading please wait" />
-          <p>Loading...</p>
+          <AlertMessage type="loading" message="Loading please wait" />
         )}
         {isSuccess && (
-          // <AlertMessage type="success" message="Post created successfully" />
-          <p>Post created successfully</p>
+          <AlertMessage type="success" message="Post created successfully" />
+  
         )}
-        {/* {isError && <AlertMessage type="error" message={errorMsg} />} */}
+        {isError && <AlertMessage type="error" message={errorMsg} />}
         <form onSubmit={formik.handleSubmit} className="space-y-6">
           {/* Description Input - Using ReactQuill for rich text editing */}
           <div className="mb-10">
@@ -128,6 +154,7 @@ function CreatePost() {
                 setDescription(e);
                 formik.setFieldValue("description", e);
               }}
+              className="mt-1 h-44"
             />
 
             {/* display err msg */}
@@ -137,7 +164,7 @@ function CreatePost() {
           </div>
 
           {/* Category Input - Dropdown for selecting post category */}
-          <div>
+          <div className="mt-10">
             <label
               htmlFor="category"
               className="block text-sm font-medium text-gray-700"
@@ -180,7 +207,7 @@ function CreatePost() {
                 type="file"
                 name="image"
                 accept="image/*"
-                // onChange={handleFileChange}
+                onChange={handleFileChange}
                 className="hidden"
               />
               <label
@@ -196,11 +223,11 @@ function CreatePost() {
             )}
 
             {/* error message */}
-            {/* {imageError && <p className="text-sm text-red-600">{imageError}</p>} */}
+            {imageError && <p className="text-sm text-red-600">{imageError}</p>}
 
             {/* Preview image */}
 
-            {/* {imagePreview && (
+            {imagePreview && (
               <div className="mt-2 relative">
                 <img
                   src={imagePreview}
@@ -214,7 +241,7 @@ function CreatePost() {
                   <FaTimesCircle className="text-red-500" />
                 </button>
               </div>
-            )} */}
+            )}
           </div>
 
           {/* Submit Button - Button to submit the form */}
