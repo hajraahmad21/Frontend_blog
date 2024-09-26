@@ -11,3 +11,12 @@ export const registerAPI = async (values) => {
     const response = await axios.post(`${baseUrl}/users/register`, values,{withCredentials:true,});
     return response.data;
 }
+
+export const checkAuthStatus = async () => {
+    const response = await axios.get(`${baseUrl}/users/checkauthenticated`,{withCredentials:true,});
+    return response.data;
+}
+export const logoutAPI = async () => {
+    const response = await axios.get(`${baseUrl}/users/logout`,{withCredentials:true,});
+    return response.data;
+}
