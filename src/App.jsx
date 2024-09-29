@@ -15,11 +15,14 @@ import { checkAuthStatus } from "./APIServices/usersApi";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { isAuthenticated } from "./components/redux/slices/authSlices";
+import AuthRoutes from "./components/AuthRoutes/AuthRoutes";
 function App() {
-  const { data } = useQuery({
-    queryKey: ["authStatus"],
+    const {  data } = useQuery({
+    queryKey: ["user-auth"],
     queryFn: checkAuthStatus,
-  });
+  });;
+
+  //dispatch
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(isAuthenticated(data));
@@ -38,7 +41,15 @@ function App() {
         <Route element={<PostDetails />} path="/posts/:postId" />
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
-        <Route element={<Profile />} path="/profile" />
+        <Route
+          element={
+            <AuthRoutes>
+              {" "}
+              <Profile />
+            </AuthRoutes>
+          }
+          path="/profile"
+        />
       </Routes>
     </BrowserRouter>
   );
