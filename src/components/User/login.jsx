@@ -42,7 +42,7 @@ const Login = () => {
         .catch((err) => console.log(err));
     },
   });
-  console.log(userMutation);
+
   return (
     <div className="flex flex-wrap pb-24">
       <div className="w-full  p-4">
@@ -52,7 +52,7 @@ const Login = () => {
               to="/register"
               className="inline-block text-gray-500 hover: transition duration-200 mb-8"
             >
-              <span>Don't have an account?</span> {""}
+              <span>Dont have an account?</span> {""}
               <span />
               <span className="font-bold font-heading">Register</span>
             </Link>
