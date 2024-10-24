@@ -19,11 +19,12 @@ import AuthRoutes from "./components/AuthRoutes/AuthRoutes";
 import UserDashbaord from "./components/User/UserDashboard";
 import AccountSummaryDashboard from "./components/User/AccountSummary";
 import AddCategory from "./components/Category/AddCategory";
+
 function App() {
-    const {  data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["user-auth"],
     queryFn: checkAuthStatus,
-  });;
+  });
 
   //dispatch
   const dispatch = useDispatch();
