@@ -16,6 +16,9 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { isAuthenticated } from "./components/redux/slices/authSlices";
 import AuthRoutes from "./components/AuthRoutes/AuthRoutes";
+import UserDashbaord from "./components/User/UserDashboard";
+import AccountSummaryDashboard from "./components/User/AccountSummary";
+import AddCategory from "./components/Category/AddCategory";
 function App() {
     const {  data } = useQuery({
     queryKey: ["user-auth"],
@@ -34,11 +37,58 @@ function App() {
 
       {userAuth ? <PrivateNavbar /> : <PublicNavbar />}
       <Routes>
-        <Route element={<Home />} path="/" />
-        <Route element={<CreatePost />} path="/create-post" />
-        <Route element={<Posts />} path="/posts" />
-        <Route element={<EditPost />} path="/posts/edit/:postId" />
-        <Route element={<PostDetails />} path="/posts/:postId" />
+        <Route
+          element={
+            <AuthRoutes>
+              <Home />{" "}
+            </AuthRoutes>
+          }
+          path="/"
+        />
+        <Route element={<UserDashbaord />} path="/dashboard">
+        <Route
+          element={
+            <CreatePost />
+          }
+          path="create-post" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+        />
+        <Route
+          element={
+            <AddCategory />
+          }
+          path="add-category" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+        />
+         <Route
+          element={
+            <AccountSummaryDashboard />
+          }
+          path="" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+        />
+        </Route>
+        <Route
+          element={
+            <AuthRoutes>
+              <Posts />
+            </AuthRoutes>
+          }
+          path="/posts"
+        />
+        <Route
+          element={
+            <AuthRoutes>
+              <EditPost />
+            </AuthRoutes>
+          }
+          path="/posts/edit/:postId"
+        />
+        <Route
+          element={
+            <AuthRoutes>
+              <PostDetails />
+            </AuthRoutes>
+          }
+          path="/posts/:postId"
+        />
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
         <Route

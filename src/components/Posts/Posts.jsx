@@ -7,6 +7,8 @@ import NoDataFound from "../Alert/NoDataFound";
 import { useState } from "react";
 import "./Post.css";
 import AlertMessage from "../Alert/AlertMessage";
+import { fetchAllCategories } from "../../APIServices/categoryApi";
+import PostCategory from "../Category/PostCategory";
 
 function Posts() {
   const [page, setPage] = useState(1);
@@ -20,6 +22,10 @@ function Posts() {
       return deletePostApi(id);
     },
   });
+  const {data:categories} = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchAllCategories
+  })
 
   const handleDelete = async (id) => {
     deletePostMutation
@@ -42,6 +48,12 @@ function Posts() {
   { 
     return <AlertMessage type={"loading"} message="Loading..." />
   }
+  const clearFilters = () => {
+    // refetch();
+  };
+  const handleCategoryFilter = () => {
+    // refetch();
+  };
   
  return (
     <section className="overflow-hidden">
@@ -90,11 +102,11 @@ function Posts() {
           <AlertMessage type="loading" message="Loading please wait" />
         )} */}
         {/* Post category */}
-        {/* <PostCategory
-          categories={categories}
+        <PostCategory
+          categories={categories?.categories}
           onCategorySelect={handleCategoryFilter}
           onClearFilters={clearFilters}
-        /> */}
+        />
         <div className="flex flex-wrap mb-32 -mx-4">
           {/* Posts */}
           {data?.posts?.map((post) => (

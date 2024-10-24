@@ -2,12 +2,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createPostApi } from "../../APIServices/postsApi";
 import { FaTimesCircle } from "react-icons/fa";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation  , useQuery} from "@tanstack/react-query";
 import ReactQuill from "react-quill";
 import "quill/dist/quill.snow.css";
 import "./style.scss";
 import { useState } from "react";
 import AlertMessage from "../Alert/AlertMessage";
+import Select from "react-select";
+import { fetchAllCategories } from "../../APIServices/categoryApi";
 
 // Register custom fonts and sizes
 import { Quill } from "react-quill";
@@ -39,26 +41,34 @@ function CreatePost() {
   const [imagePreview , setImagePreview] = useState(null);
   const postMutation = useMutation({
     mutationKey: ["createPost"],
-    mutationFn: (postData) => {
-      console.log({postData},"kk");
+    mutationFn: (postData) => { 
       return createPostApi(postData);
     },
+  });
+  const {  data } = useQuery({
+    queryKey: ["getCategory"],
+    queryFn: fetchAllCategories
+
   });
 
 
   const formik = useFormik({
     initialValues: {
       description: "",
+      image:"",
+      category:""
     },
     validationSchema: Yup.object({
       description: Yup.string().required("Description is required"),
+      image: Yup.string().required("Image is required"),
+      category: Yup.string().required("Category is required"),
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values, "values" ,values.description , values.image );
       const formData = new FormData();
       formData.append("description", values.description);
       formData.append("image", values.image);
-      console.log({formData},"form");
+      formData.append("category", values.category);
       postMutation.mutate(formData);
       resetForm();
     },
@@ -171,7 +181,7 @@ function CreatePost() {
             >
               Category
             </label>
-            {/* <Select
+            <Select
               name="category"
               options={data?.categories?.map((category) => {
                 return {
@@ -186,7 +196,7 @@ function CreatePost() {
                 (option) => option.value === formik.values.category
               )}
               className="mt-1 block w-full"
-            /> */}
+            />
             {/* display error */}
             {formik.touched.category && formik.errors.category && (
               <p className="text-sm text-red-600">{formik.errors.category}</p>

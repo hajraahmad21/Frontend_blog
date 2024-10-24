@@ -1,4 +1,3 @@
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,13 +7,15 @@ import AlertMessage from "../Alert/AlertMessage";
 import { useState } from "react";
 import { RxEyeOpen } from "react-icons/rx";
 import { TbEyeClosed } from "react-icons/tb";
+import { useDispatch } from "react-redux";
+import { isAuthenticated } from "../redux/slices/authSlices";
 
 const Login = () => {
-    const [showPassword, setShowPassword] = useState(false);
-  //navigate
-  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+
   // user mutation
-  const userMutation = useMutation({
+  const { mutateAsync, isSuccess, data  , isPending , isError  , error} = useMutation({
     mutationKey: ["user-registration"],
     mutationFn: loginAPI,
   });
@@ -27,17 +28,18 @@ const Login = () => {
     },
     // validation
     validationSchema: Yup.object({
-      email: Yup.string().email("Invalid email format").required("Email is required"),
+      email: Yup.string()
+        .email("Invalid email format")
+        .required("Email is required"),
       password: Yup.string().required("Password is required"),
     }),
     // submit
     onSubmit: (values) => {
       console.log(values);
-      userMutation
-        .mutateAsync(values)
+      mutateAsync(values)
         .then(() => {
-          // redirect
-          navigate("/profile");
+          console.log(data);
+          dispatch(isAuthenticated(data));
         })
         .catch((err) => console.log(err));
     },
@@ -59,16 +61,16 @@ const Login = () => {
             {/* show message */}
             {/* show alert */}
 
-            {userMutation.isPending && (
+            {isPending && (
               <AlertMessage type="loading" message="Loading please wait..." />
             )}
-            {userMutation.isSuccess && (
+            {isSuccess && (
               <AlertMessage type="success" message="Login success" />
             )}
-            {userMutation.isError && (
+            {isError && (
               <AlertMessage
                 type="error"
-                message={userMutation.error.response.data.message}
+                message={error.response.data.message}
               />
             )}
             <label
@@ -97,17 +99,15 @@ const Login = () => {
               <input
                 className="outline-none flex-1 placeholder-gray-500 "
                 id="textInput2"
-                type={showPassword?"text":"password"}
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter password"
                 {...formik.getFieldProps("password")}
               />
-              {
-                showPassword? (
-                    
-              <RxEyeOpen onClick={()=>setShowPassword(!showPassword)}/>
-                ):(<TbEyeClosed  onClick={()=>setShowPassword(!showPassword)}/>)
-                 
-              }
+              {showPassword ? (
+                <RxEyeOpen onClick={() => setShowPassword(!showPassword)} />
+              ) : (
+                <TbEyeClosed onClick={() => setShowPassword(!showPassword)} />
+              )}
             </div>
             {/* error */}
             {formik.touched.password && formik.errors.password && (

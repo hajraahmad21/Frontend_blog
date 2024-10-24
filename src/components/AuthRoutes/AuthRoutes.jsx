@@ -1,18 +1,23 @@
 import { useSelector } from "react-redux";
-import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-const AuthRoutes = ({ children }) => {
-  const navigate = useNavigate();
+import {  useEffect, useState } from "react";
+import Login from "../User/login";
 
+const AuthRoutes = ({ children }) => {
   const { userAuth } = useSelector((state) => state.auth);
-  const shouldRenderAuthRoutes = useCallback(() => {
+  const [shouldRender, setShouldRender] = useState(false);
+  useEffect(() => {
+
     if (userAuth) {
-      return children;
-    } else {
-      navigate("/login");
+      setShouldRender(true);
+      return;
     }
-  }, [children, navigate, userAuth]);
-  return shouldRenderAuthRoutes();
+    setShouldRender(false);
+  }, [userAuth]);
+  if (!shouldRender) {
+    return <Login />;
+  } else {
+    return children;
+  }
 };
 
 export default AuthRoutes;
