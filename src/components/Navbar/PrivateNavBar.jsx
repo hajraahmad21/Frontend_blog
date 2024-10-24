@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/20/solid";
+
 import { Link } from "react-router-dom";
 
 import { MdOutlineDashboard } from "react-icons/md";
@@ -76,7 +78,7 @@ export default function PrivateNavbar() {
                    <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <Link
-                    to="/create-post"
+                    to="/dashboard/create-post"
                     className="relative inline-flex items-center gap-x-1.5 rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 animate-pulse"
                   >
                     <PlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />

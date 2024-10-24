@@ -18,6 +18,8 @@ import { isAuthenticated } from "./components/redux/slices/authSlices";
 import AuthRoutes from "./components/AuthRoutes/AuthRoutes";
 import UserDashbaord from "./components/User/UserDashboard";
 import AccountSummaryDashboard from "./components/User/AccountSummary";
+import AddCategory from "./components/Category/AddCategory";
+
 function App() {
   const { data } = useQuery({
     queryKey: ["user-auth"],
@@ -50,6 +52,12 @@ function App() {
             <CreatePost />
           }
           path="create-post" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+        />
+        <Route
+          element={
+            <AddCategory />
+          }
+          path="add-category" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
         />
          <Route
           element={
