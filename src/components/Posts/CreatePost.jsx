@@ -36,7 +36,7 @@ Size.whitelist = [
 Quill.register(Size, true);
 
 function CreatePost() {
-  const [description, setDescription] = useState("");
+  const [ setDescription] = useState("");
   const [imageError, setImageError] = useState("");
   const [imagePreview , setImagePreview] = useState(null);
   const postMutation = useMutation({

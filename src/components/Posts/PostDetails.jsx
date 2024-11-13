@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+import {  useQuery } from "@tanstack/react-query";
+import  { useState } from "react";
 import {
   FaThumbsUp,
   FaThumbsDown,

@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const AccountSummaryDashboard = ({}) => {
+const AccountSummaryDashboard = () => {
   //check if user has email
 
   const hasEmail = false;
@@ -42,7 +42,7 @@ const AccountSummaryDashboard = ({}) => {
 
   //calculate total comments
 
-  const totalComments = 0;
+  // const totalComments = 0;
 
   //calculate total dislikes
 

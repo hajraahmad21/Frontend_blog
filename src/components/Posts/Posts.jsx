@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { fetchAllPosts, deletePostApi } from "../../APIServices/postsApi";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
@@ -26,6 +27,7 @@ function Posts() {
     queryKey: ["categories"],
     queryFn: fetchAllCategories
   })
+
 
   const handleDelete = async (id) => {
     deletePostMutation
