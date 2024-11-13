@@ -11,7 +11,6 @@ import { useMutation } from "@tanstack/react-query";
 import { logoutAPI } from "../../APIServices/usersApi";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlices";
-import { PlusIcon } from "@heroicons/react/20/solid";
 // import NotificationCounts from "../Notification/NotificationCounts";
 
 function classNames(...classes) {
