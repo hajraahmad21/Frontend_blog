@@ -47,24 +47,18 @@ function App() {
           path="/"
         />
         <Route element={<UserDashbaord />} path="/dashboard">
-        <Route
-          element={
-            <CreatePost />
-          }
-          path="create-post" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
-        />
-        <Route
-          element={
-            <AddCategory />
-          }
-          path="add-category" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
-        />
-         <Route
-          element={
-            <AccountSummaryDashboard />
-          }
-          path="" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
-        />
+          <Route
+            element={<CreatePost />}
+            path="create-post" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+          />
+          <Route
+            element={<AddCategory />}
+            path="add-category" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+          />
+          <Route
+            element={<AccountSummaryDashboard />}
+            path="" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+          />
         </Route>
         <Route
           element={

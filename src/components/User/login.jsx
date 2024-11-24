@@ -15,10 +15,11 @@ const Login = () => {
   const dispatch = useDispatch();
 
   // user mutation
-  const { mutateAsync, isSuccess, data  , isPending , isError  , error} = useMutation({
-    mutationKey: ["user-registration"],
-    mutationFn: loginAPI,
-  });
+  const { mutateAsync, isSuccess, data, isPending, isError, error } =
+    useMutation({
+      mutationKey: ["user-registration"],
+      mutationFn: loginAPI,
+    });
   // formik config
   const formik = useFormik({
     // initial data

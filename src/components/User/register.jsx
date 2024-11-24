@@ -14,7 +14,7 @@ const Register = () => {
     mutationFn: registerAPI,
   });
   // formik config
-  const formik = useFormik({    
+  const formik = useFormik({
     // initial data
     initialValues: {
       name: "",

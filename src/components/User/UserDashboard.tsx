@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
@@ -147,7 +147,7 @@ export default function UserDashbaord() {
                                     item.current
                                       ? "bg-gray-50 text-orange-600"
                                       : "text-orange-700 hover:text-indigo-600 hover:bg-gray-50",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
                                   )}
                                 >
                                   <item.icon
@@ -155,7 +155,7 @@ export default function UserDashbaord() {
                                       item.current
                                         ? "text-indigo-600"
                                         : "text-gray-400 group-hover:text-indigo-600",
-                                      "h-6 w-6 shrink-0"
+                                      "h-6 w-6 shrink-0",
                                     )}
                                     aria-hidden="true"
                                   />
@@ -195,7 +195,7 @@ export default function UserDashbaord() {
                             item.current
                               ? "bg-gray-50 text-orange-600"
                               : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
                           )}
                         >
                           <item.icon
@@ -203,7 +203,7 @@ export default function UserDashbaord() {
                               item.current
                                 ? "text-orange-600"
                                 : "text-gray-400 group-hover:text-orange-600",
-                              "h-6 w-6 shrink-0"
+                              "h-6 w-6 shrink-0",
                             )}
                             aria-hidden="true"
                           />

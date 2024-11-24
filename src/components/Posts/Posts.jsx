@@ -13,9 +13,11 @@ import PostCategory from "../Category/PostCategory";
 
 function Posts() {
   const [page, setPage] = useState(1);
-  const { isError, error, data, isLoading, refetch , isSuccess } = useQuery({
-    queryKey: ["posts"],
-    queryFn: fetchAllPosts,
+  const [filters, setFilters] = useState({})
+  const [searchText, setSearchText] = useState("");
+  const { isError, error, data, isLoading, refetch, isSuccess } = useQuery({
+    queryKey: ["posts", {...filters, page}],
+    queryFn: ()=>fetchAllPosts({...filters, description: searchText, page , limit:10}),
   });
   const deletePostMutation = useMutation({
     mutationKey: ["delete-post"],
@@ -23,11 +25,10 @@ function Posts() {
       return deletePostApi(id);
     },
   });
-  const {data:categories} = useQuery({
+  const { data: categories } = useQuery({
     queryKey: ["categories"],
-    queryFn: fetchAllCategories
-  })
-
+    queryFn: fetchAllCategories,
+  });
 
   const handleDelete = async (id) => {
     deletePostMutation
@@ -38,26 +39,33 @@ function Posts() {
       })
       .catch((err) => console.log(err));
   };
-  if(isError)
-  {
-    return <AlertMessage type={"error"} message={error.message} />
-  }
-  if(data?.posts?.length<=0)
-  {
-    return <NoDataFound text="No posts found"/>
-  }
-  if (isLoading)
-  { 
-    return <AlertMessage type={"loading"} message="Loading..." />
-  }
   const clearFilters = () => {
-    // refetch();
+    setFilters({});
+    setSearchText("");
+    setPage(1);
+    refetch();
   };
-  const handleCategoryFilter = () => {
-    // refetch();
+  const handleCategoryFilter = (categoryId) => {
+    setFilters({ ...filters, category: categoryId })
+    setPage(1);
+    refetch();
   };
-  
- return (
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setFilters({ ...filters, description: searchText })
+    setPage(1);
+    refetch();
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    refetch();
+  };
+
+  return (
     <section className="overflow-hidden">
       <div className="container px-4 mx-auto">
         <h1 className="text-4xl lg:text-6xl font-bold font-heading mb-6 mt-16">
@@ -71,15 +79,15 @@ function Posts() {
         </h2>
         {/* Searching feature */}
         <form
-          // onSubmit={handleSearchSubmit}
+          onSubmit={handleSearchSubmit}
           className="flex flex-col md:flex-row items-center gap-2 mb-4"
         >
           <div className="flex-grow flex items-center border border-gray-300 rounded-lg overflow-hidden">
             <input
               type="text"
               placeholder="Search posts..."
-              // value={searchTerm}
-              // onChange={handleSearchChange}
+              value={searchText}
+              onChange={handleSearchChange}
               className="flex-grow p-2 text-sm focus:outline-none"
             />
             <button
@@ -90,7 +98,7 @@ function Posts() {
             </button>
           </div>
           <button
-            // onClick={clearFilters}
+            onClick={clearFilters}
             className="p-2 text-sm text-orange-500 border border-blue-500 rounded-lg hover:bg-blue-100 flex items-center gap-1"
           >
             <MdClear className="h-4 w-4" />
@@ -99,10 +107,10 @@ function Posts() {
         </form>
         {/* Show alert  */}
         {/* {data?.posts?.length <= 0 && <NoDataFound text="No Post Found" />} */}
-        {/* {isError && <AlertMessage type="error" message="Something happened" />} */}
-        {/* {isLoading && (
+        {isError && <AlertMessage type="error" message="Something happened" />}
+        {isLoading && (
           <AlertMessage type="loading" message="Loading please wait" />
-        )} */}
+        )}
         {/* Post category */}
         <PostCategory
           categories={categories?.categories}
@@ -111,6 +119,10 @@ function Posts() {
         />
         <div className="flex flex-wrap mb-32 -mx-4">
           {/* Posts */}
+          {
+            data?.posts?.length <= 0 && <NoDataFound text="No Post Found" />
+          }
+         
           {data?.posts?.map((post) => (
             <div key={post._id} className="w-full md:w-1/2 lg:w-1/3 p-4">
               <Link to={`/posts/${post._id}`}>
@@ -163,7 +175,7 @@ function Posts() {
       <div className="flex justify-center items-center my-8 space-x-4">
         {page > 1 && (
           <button
-            // onClick={() => handlePageChange(page - 1)}
+            onClick={() => handlePageChange(page - 1)}
             className="px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
           >
             Previous
@@ -176,7 +188,7 @@ function Posts() {
 
         {page < data?.totalPages && (
           <button
-            // onClick={() => handlePageChange(page + 1)}
+            onClick={() => handlePageChange(page + 1)}
             className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
           >
             Next
