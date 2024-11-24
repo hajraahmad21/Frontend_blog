@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import {  useQuery } from "@tanstack/react-query";
-import  { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   FaThumbsUp,
   FaThumbsDown,
@@ -11,9 +11,7 @@ import {
 } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import {
-  getPostApi,
-} from "../../APIServices/postsApi";
+import { getPostApi } from "../../APIServices/postsApi";
 import { RiUserUnfollowFill, RiUserFollowLine } from "react-icons/ri";
 // import {
 //   followUserAPI,
@@ -38,40 +36,40 @@ const PostDetails = () => {
     queryFn: () => getPostApi(postId),
   });
   //! Profile useQuery
-//   const { data: profileData, refetch: refetchProfile } = useQuery({
-//     queryKey: ["profile"],
-//     queryFn: () => userProfileAPI(),
-//   });
+  //   const { data: profileData, refetch: refetchProfile } = useQuery({
+  //     queryKey: ["profile"],
+  //     queryFn: () => userProfileAPI(),
+  //   });
 
   //----Follow logic----
   //Get the author id
   const targetId = data?.post?.author;
   //get the login user id
-//   const userId = profileData?.user?._id;
+  //   const userId = profileData?.user?._id;
   //Get if the user/login is following the user
-//   const isFollowing = profileData?.user?.following?.find(
-//     (user) => user?._id?.toString() === targetId?.toString()
-//   );
+  //   const isFollowing = profileData?.user?.following?.find(
+  //     (user) => user?._id?.toString() === targetId?.toString()
+  //   );
 
   //---Follow & unfollow mutation
-//   const followUserMutation = useMutation({
-//     mutationKey: ["follow"],
-//     mutationFn: followUserAPI,
-//   });
-//   const unfollowUserMutation = useMutation({
-//     mutationKey: ["unfollow"],
-//     mutationFn: unfollowUserAPI,
-//   });
+  //   const followUserMutation = useMutation({
+  //     mutationKey: ["follow"],
+  //     mutationFn: followUserAPI,
+  //   });
+  //   const unfollowUserMutation = useMutation({
+  //     mutationKey: ["unfollow"],
+  //     mutationFn: unfollowUserAPI,
+  //   });
 
   //---lies & dislikes mutation
-//   const likePostMutation = useMutation({
-//     mutationKey: ["likes"],
-//     mutationFn: likePostAPI,
-//   });
-//   const dislikePostMutation = useMutation({
-//     mutationKey: ["dislikes"],
-//     mutationFn: dislikePostAPI,
-//   });
+  //   const likePostMutation = useMutation({
+  //     mutationKey: ["likes"],
+  //     mutationFn: likePostAPI,
+  //   });
+  //   const dislikePostMutation = useMutation({
+  //     mutationKey: ["dislikes"],
+  //     mutationFn: dislikePostAPI,
+  //   });
 
   //----handler for follow mutation
   const followUserHandler = async () => {
@@ -116,40 +114,43 @@ const PostDetails = () => {
   };
 
   // user mutation
-//   const commentMutation = useMutation({
-//     mutationKey: ["create-comment"],
-//     mutationFn: createCommentAPI,
-//   });
+  //   const commentMutation = useMutation({
+  //     mutationKey: ["create-comment"],
+  //     mutationFn: createCommentAPI,
+  //   });
   // formik config
-//   const formik = useFormik({
-//     // initial data
-//     initialValues: {
-//       content: "",
-//     },
-//     // validation
-//     validationSchema: Yup.object({
-//       content: Yup.string().required("Comment content is required"),
-//     }),
-//     // submit
-//     onSubmit: (values) => {
-//       const data = {
-//         content: values.content,
-//         postId,
-//       };
-//       commentMutation
-//         .mutateAsync(data)
-//         .then(() => {
-//           refetchPost();
-//         })
-//         .catch((e) => console.log(e));
-//     },
-//   });
-const isFollowing = true;
+  //   const formik = useFormik({
+  //     // initial data
+  //     initialValues: {
+  //       content: "",
+  //     },
+  //     // validation
+  //     validationSchema: Yup.object({
+  //       content: Yup.string().required("Comment content is required"),
+  //     }),
+  //     // submit
+  //     onSubmit: (values) => {
+  //       const data = {
+  //         content: values.content,
+  //         postId,
+  //       };
+  //       commentMutation
+  //         .mutateAsync(data)
+  //         .then(() => {
+  //           refetchPost();
+  //         })
+  //         .catch((e) => console.log(e));
+  //     },
+  //   });
+  const isFollowing = true;
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white rounded-lg shadow-lg p-5">
         <img
-          src={data?.post.image?.path || "https://cdn.pixabay.com/photo/2024/07/11/14/32/orange-8888447_1280.png"}
+          src={
+            data?.post.image?.path ||
+            "https://cdn.pixabay.com/photo/2024/07/11/14/32/orange-8888447_1280.png"
+          }
           alt={data?.post.description}
           className="w-full h-full object-cover rounded-lg mb-4"
           width={20}
@@ -220,7 +221,7 @@ const isFollowing = true;
         </div>
 
         {/* Comment Form */}
-        <form onSubmit={()=>{}}>
+        <form onSubmit={() => {}}>
           <textarea
             className="w-full border border-gray-300 p-2 rounded-lg mb-2"
             rows="3"
@@ -228,7 +229,7 @@ const isFollowing = true;
             value={comment}
             // {...formik.getFieldProps("content")}
           ></textarea>
-         
+
           {/* {formik.touched.content && formik.errors.content && (
             <div className="text-red-500 mb-4 mt-1">
               {formik.errors.content}

@@ -27,8 +27,7 @@ function EditPost() {
       description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values) => {
-      updatePostMutation.mutate(values); 
-
+      updatePostMutation.mutate(values);
     },
   });
   return (
@@ -36,7 +35,9 @@ function EditPost() {
       {isLoading && <div>Loading...</div>}
       {isError && <div>{error.message}</div>}
       {updatePostMutation.isSuccess && <div>Post updated successfully</div>}
-      {updatePostMutation.isError && <div>{updatePostMutation.error.message}</div>}
+      {updatePostMutation.isError && (
+        <div>{updatePostMutation.error.message}</div>
+      )}
       {isSuccess && (
         <form onSubmit={formik.handleSubmit}>
           <input

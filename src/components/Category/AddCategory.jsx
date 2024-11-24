@@ -5,13 +5,7 @@ import { useFormik } from "formik";
 import AlertMessage from "../Alert/AlertMessage";
 
 const AddCategory = () => {
-  const {
-    mutate,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useMutation({
+  const { mutate, isLoading, isSuccess, isError, error } = useMutation({
     mutationKey: ["addCategory"],
     mutationFn: (data) => {
       console.log(data);
@@ -37,12 +31,7 @@ const AddCategory = () => {
       <div className="w-full  p-4">
         <div className="flex flex-col justify-center max-w-md mx-auto h-full py-12">
           <form onSubmit={formik.handleSubmit}>
-
-
-            
-
-            <h1
-              className="text-3xl font-bold font-heading mb-4">
+            <h1 className="text-3xl font-bold font-heading mb-4">
               Add Category
             </h1>
             {/* show loading */}

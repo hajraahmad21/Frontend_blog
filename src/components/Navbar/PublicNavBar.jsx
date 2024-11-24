@@ -1,4 +1,3 @@
-
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
@@ -86,7 +85,6 @@ export default function PublicNavbar() {
 
           <Disclosure.Panel className="md:hidden">
             <div className="space-y-1 pb-3 pt-2 origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0">
-
               <Disclosure.Button
                 as="a"
                 href="#"
