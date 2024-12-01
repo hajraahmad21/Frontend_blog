@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   FaEye,
   FaDollarSign,
@@ -7,28 +9,34 @@ import {
   FaFlag,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "../../APIServices/usersApi"
 
-const AccountSummaryDashboard = () => {
+const AccountSummaryDashboard = ({ }) => {
+    const { data , isLoading ,isError , error}=useQuery({
+        queryKey: ["userProfile"],
+        queryFn: () => getUserProfile(),
+    })
   //check if user has email
 
-  const hasEmail = false;
+  const hasEmail = !!data?.user?.email;
 
   //check if user has plan
 
-  const hasPlan = false;
+  const hasPlan = data?.user?.hasSelectedPlan;
 
   //check if user has verified account
-  const isEmailVerified = false;
+  const isEmailVerified = data?.user?.isEmailVerified;
 
   //total followers
-  const totalFollowers = 0;
+  const totalFollowers = data?.user?.followers?.length;
 
   //total following
-  const totalFollowing = 10;
+  const totalFollowing = data?.user?.following?.length;
 
   //get user posts
 
-  const userPosts = 0;
+  const userPosts = data?.user?.posts?.length;
 
   //there is a view count in the post object so calculate the total views
 
@@ -91,7 +99,7 @@ const AccountSummaryDashboard = () => {
     {
       icon: <FaFlag />,
       label: "Posts",
-      value: userPosts?.length || 0,
+      value: userPosts || 0,
       bgColor: "bg-pink-500",
     },
     {
@@ -102,6 +110,7 @@ const AccountSummaryDashboard = () => {
     },
   ];
 
+  console.log(data)
   return (
     <div className="p-4">
       <p
@@ -109,7 +118,7 @@ const AccountSummaryDashboard = () => {
        font-bold text-2xl text-gray-800 mb-4
       "
       >
-        Welcome Back:Masynctech
+        Welcome Back:{data?.user?.name}
       </p>
       {/* display account verification status */}
       {/* {mutation.isPending ? (
