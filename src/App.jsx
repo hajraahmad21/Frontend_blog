@@ -18,7 +18,9 @@ import { isAuthenticated } from "./components/redux/slices/authSlices";
 import AuthRoutes from "./components/AuthRoutes/AuthRoutes";
 import UserDashbaord from "./components/User/UserDashboard";
 import AccountSummaryDashboard from "./components/User/AccountSummary";
+import CreatePlan from "./components/Plans/createPlan";
 import AddCategory from "./components/Category/AddCategory";
+import Pricing from "./components/Plans/Prcing";
 
 function App() {
   const { data } = useQuery({
@@ -56,6 +58,10 @@ function App() {
             path="add-category" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
           />
           <Route
+            element={<CreatePlan />}
+            path="create-plan" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
+          />
+          <Route
             element={<AccountSummaryDashboard />}
             path="" // when we are using outlet we dont need to use / note outlet is use for creating nested routes
           />
@@ -84,8 +90,13 @@ function App() {
           }
           path="/posts/:postId"
         />
+
         <Route element={<Login />} path="/login" />
         <Route element={<Register />} path="/register" />
+        <Route
+          element={<Pricing />}
+          path="/pricing" 
+        />
         <Route
           element={
             <AuthRoutes>
