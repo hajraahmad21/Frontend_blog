@@ -1,5 +1,5 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
+    import { useFormik } from "formik";
+    import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { loginAPI } from "../../APIServices/usersApi";
@@ -62,18 +62,7 @@ const Login = () => {
             {/* show message */}
             {/* show alert */}
 
-            {isPending && (
-              <AlertMessage type="loading" message="Loading please wait..." />
-            )}
-            {isSuccess && (
-              <AlertMessage type="success" message="Login success" />
-            )}
-            {isError && (
-              <AlertMessage
-                type="error"
-                message={error.response.data.message}
-              />
-            )}
+        c
             <label
               className="block text-sm font-medium mb-2"
               htmlFor="textInput1"

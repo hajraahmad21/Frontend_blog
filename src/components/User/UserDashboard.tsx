@@ -46,7 +46,7 @@ const navigation = [
   },
   {
     name: "Create Plan",
-    href: "/dashboard/add-plan",
+    href: "/dashboard/create-plan",
     icon: FaCalendarPlus,
     current: false,
   },
